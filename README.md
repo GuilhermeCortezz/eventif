@@ -47,3 +47,5 @@ Criar senha aleatoria: python3 contrib/secret_gen.py
 Adicionar no .env:
 SECRET_KEY=
 DEBUG=True
+
+Pacotes q precisam ser instalados: pip freeze > requirements.txt
