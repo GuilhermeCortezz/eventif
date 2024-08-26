@@ -49,3 +49,4 @@ SECRET_KEY=
 DEBUG=True
 
 Pacotes q precisam ser instalados: pip freeze > requirements.txt
+Instalar os pacotes: pip install -r requirements.txt
