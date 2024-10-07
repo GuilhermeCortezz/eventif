@@ -37,9 +37,10 @@ Regular expression:
 buscar: (src|href)="((img|css|js).*?)"
 alterar: $1="{% static '$2' %}"
 
--> Instalar python-decouple para privar senhas: pip install python-decouple
--> Instalar dburl para privar bancos de dados: pip install dj-database-url
--> Instalar dj-static para fornecer arquivos estaticos: pip install dj-static
+Instalar python-decouple para privar senhas: pip install python-decouple
+Instalar dburl para privar bancos de dados: pip install dj-database-url
+Instalar dj-static para fornecer arquivos estaticos: pip install dj-static
+-> Instalar os pacotes: pip install -r requirements.txt
 
 
 -> Criar senha aleatoria: python3 contrib/secret_gen.py
@@ -51,6 +52,5 @@ alterar: $1="{% static '$2' %}"
 -> Criar pasta staticfiles: python3 manage.py collectstatic
 
 Pacotes q precisam ser instalados: pip freeze > requirements.txt
--> Instalar os pacotes: pip install -r requirements.txt
 
 Testar site: python3 manage.py test
