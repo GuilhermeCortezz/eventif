@@ -8,7 +8,7 @@ desativar: deactivate
 excluir: rm -rf .eventif
 
 No Linux/MacOS: source nomedavenv/bin/activate
-No Windows: myenv\ Scripts\ activate
+No Windows: .\.venv\Scripts\activate
 
 ________________________________________________________________________
 
