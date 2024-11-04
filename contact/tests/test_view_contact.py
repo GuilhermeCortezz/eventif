@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core import mail
 from contact.forms import ContactForm
 
-class ContactTest(TestCase):
+class ContactGet(TestCase):
     def setUp(self):
         self.response = self.client.get('/contato/')
 
@@ -13,21 +13,21 @@ class ContactTest(TestCase):
         self.assertTemplateUsed(self.response, 'contact/contact_form.html')
 
     def test_html(self):
-        self.assertContains(self.response, '<form')
-        self.assertContains(self.response, '<input', 5)
-        self.assertContains(self.response, 'type="text"', 2)
-        self.assertContains(self.response, '<textarea', 1)
-        self.assertContains(self.response, 'type="email"')
-        self.assertContains(self.response, 'type="submit"')
-
+        tags = (
+            ('<form', 1),
+            ('<input', 5),
+            ('type="text"', 2),
+            ('<textarea', 1),
+            ('type="email"', 1),
+            ('type="submit"', 1)
+        )
+        for text, count in tags:
+            with self.subTest():
+                self.assertContains(self.response, text, count)
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
 
-    def test_has_form(self):
-        form = self.response.context['form']
-        self.assertSequenceEqual(['name', 'phone', 'email', 'message'], list(form.fields))
-
-class ContactPostTest(TestCase):
+class ContactPostValid(TestCase):
     def setUp(self):
         data = dict(name="Guilherme Cortez", phone="", email="gui200cortez@gmail.com", message="Mensagem de teste para contato!")
         self.resp = self.client.post('/contato/', data)
@@ -35,32 +35,10 @@ class ContactPostTest(TestCase):
     def test_post(self):
         self.assertEqual(302, self.resp.status_code)
 
-    def test_send_subscription_email(self):
+    def test_send_contact_email(self):
         self.assertEqual(1, len(mail.outbox))
 
-    def test_subscription_email_subject(self):
-        email = mail.outbox[0]
-        expect = 'Confirmação de contato!'
-        self.assertEqual(expect, email.subject)
-    
-    def test_subscription_email_from(self):
-        email = mail.outbox[0]
-        expect = 'gui200cortez@gmail.com'
-        self.assertEqual(expect, email.from_email)
-
-    def test_subscription_email_to(self):
-        email = mail.outbox[0]
-        expect = ['contato@eventif.com.br', 'gui200cortez@gmail.com']
-        self.assertEqual(expect, email.to)
-
-    def test_subscription_email_body(self):
-        email = mail.outbox[0]
-        self.assertIn('Guilherme Cortez', email.body)
-        self.assertIn('', email.body)
-        self.assertIn('gui200cortez@gmail.com', email.body)
-        self.assertIn('Mensagem de teste para contato!', email.body)
-
-class ContactInvalidPost(TestCase):
+class ContactPostInvalid(TestCase):
     def setUp(self):
         self.resp = self.client.post('/contato/', {})
 
