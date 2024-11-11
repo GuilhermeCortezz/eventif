@@ -16,7 +16,7 @@ git clone https://github.com/GuilhermeCortezz/eventif.git
 cd eventif
 python3 -m venv .eventif
 source .eventif/bin/activate
-pip install -r requirements.txt
-cp contrib/env-sample .env
+pip install -r requirements-dev.txt
+cp contrib/.env-sample .env
 python manage.py test
 ```
