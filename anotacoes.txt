@@ -56,6 +56,6 @@ Pacotes q precisam ser instalados: pip freeze > requirements.txt
 
 Testar site: python3 manage.py test
 
-Criar migration: python manage.py makemigrations
+Criar migration: python3 manage.py makemigrations
 
-Aplicar migration: python manage.py migrate
+Aplicar migration: python3 manage.py migrate
