@@ -55,3 +55,7 @@ Instalar dj-static para fornecer arquivos estaticos: pip install dj-static
 Pacotes q precisam ser instalados: pip freeze > requirements.txt
 
 Testar site: python3 manage.py test
+
+Criar migration: python manage.py makemigrations
+
+Aplicar migration: python manage.py migrate

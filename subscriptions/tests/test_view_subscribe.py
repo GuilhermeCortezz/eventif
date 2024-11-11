@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core import mail
 from subscriptions.forms import SubscriptionForm
+from subscriptions.models import Subscription
 
 class SubscribeGet(TestCase):
     def setUp(self):
@@ -38,6 +39,9 @@ class SubscribePostValid(TestCase):
     def test_send_subscription_email(self):
         self.assertEqual(1, len(mail.outbox))
 
+    def test_save_subscription(self):
+        self.assertTrue(Subscription.objects.exists())
+
 class SubscribePostInvalid(TestCase):
     def setUp(self):
         self.resp = self.client.post('/inscricao/', {})
@@ -55,6 +59,9 @@ class SubscribePostInvalid(TestCase):
     def test_form_has_error(self):
         form = self.resp.context['form']
         self.assertTrue(form.errors)
+
+    def test_dont_save_subscription(self):
+        self.assertFalse(Subscription.objects.exists())
 
 class SubscribeSucessMessage(TestCase):
     def test_message(self):
