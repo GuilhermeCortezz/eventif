@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- OVERVIEW -->
+<section>
+    <div class="content row padding-bottom-3 desktop-12 container">
+        <h1>Recebemos seu contato!</h1>
+        <div class="desktop-6">
+            <p>Estes foram os dados que você enviou.</p>
+            
+            <ul>
+                <li>Nome: {{ contact.name }}</li>
+                <li>Telefone: {{ contact.phone }}</li>
+                <li>Email: {{ contact.email }}</li>
+                <li>Mensagem: {{ contact.message }}</li>
+            </ul>
+
+            <p>Em até 48 horas úteis alguem da nossa equipe responderá o seu contato.</p>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

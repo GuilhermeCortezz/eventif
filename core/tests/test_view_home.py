@@ -20,7 +20,7 @@ class HomeTest(TestCase):
         self.assertContains(self.response, 'href="{}"'.format(r('subscriptions:new')))
 
     def test_link_contact(self):
-        self.assertContains(self.response, 'href="{}"'.format(r('contact')))
+        self.assertContains(self.response, 'href="{}"'.format(r('contact:new')))
     
     def test_speakers(self):
         contents = [

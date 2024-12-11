@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.core import mail
 from contact.forms import ContactForm
+from contact.models import Contact
+from django.shortcuts import resolve_url as r
 
 class ContactGet(TestCase):
     def setUp(self):
-        self.response = self.client.get('/contato/')
+        self.response = self.client.get(r('contact:new'))
 
     def test_get(self):
         self.assertEqual(200, self.response.status_code)
@@ -30,17 +32,21 @@ class ContactGet(TestCase):
 class ContactPostValid(TestCase):
     def setUp(self):
         data = dict(name="Guilherme Cortez", phone="", email="gui200cortez@gmail.com", message="Mensagem de teste para contato!")
-        self.resp = self.client.post('/contato/', data)
+        self.resp = self.client.post(r('contact:new'), data)
 
     def test_post(self):
+        self.assertRedirects(self.resp, r('contact:detail', 1))
         self.assertEqual(302, self.resp.status_code)
 
     def test_send_contact_email(self):
         self.assertEqual(1, len(mail.outbox))
 
+    def test_save_contact(self):
+        self.assertTrue(Contact.objects.exists())
+
 class ContactPostInvalid(TestCase):
     def setUp(self):
-        self.resp = self.client.post('/contato/', {})
+        self.resp = self.client.post(r('contact:new'), {})
 
     def test_post(self):
         self.assertEqual(200, self.resp.status_code)
@@ -56,8 +62,5 @@ class ContactPostInvalid(TestCase):
         form = self.resp.context['form']
         self.assertTrue(form.errors)
 
-class ContactSucessMessage(TestCase):
-    def test_message(self):
-        data = dict(name="Guilherme Cortez", phone="", email="gui200cortez@gmail.com", message="Mensagem de teste para contato!")
-        resp = self.client.post('/contato/', data, follow=True)
-        self.assertContains(resp, 'Mensagem enviada com sucesso!')
+    def test_dont_save_contact(self):
+        self.assertFalse(Contact.objects.exists())
